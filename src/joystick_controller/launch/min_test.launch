@@ -1,0 +1,104 @@
+<launch>
+
+	<!-- PS3 joy node -->
+	<!-- 
+	<node pkg="joy" type="joy_node" name="ps3_joy" output="screen" >
+    		<param name="dev" type="string" value="/dev/input/js0" />
+    		<param name="deadzone" value="0.12" />
+		<param name="coalesce_interval" value="0.0001" />
+  	</node>
+	-->
+    
+	<!-- Axes -->
+	  <param name="axis_linear" value="1" type="int"/>
+	  <param name="axis_angular" value="0" type="int"/>
+	  <param name="axis_radius" value="2" type="int"/>
+	  <param name="scale_linear" value="-2000" type="double"/>
+	  <param name="scale_angular" value="2000" type="double"/>
+	  <param name="scale_radius" value="200" type="double"/>
+	  
+	<node pkg="joystick_controller" type="joystick_centroid" name="teleop"/>
+	
+	<node pkg="vicon" type="vicon_node" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.1.2:801" />
+	</node>
+
+	
+	<node pkg="create_controller" type="centroid" name="gandhi_control">
+		<param name="robotname" value="gandhi" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="alexander" />
+		<param name="robot3name" value="suleyman" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<group ns="gandhi">
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.20" />
+	</node>
+	</group>
+	
+	
+	<node pkg="create_controller" type="centroid" name="alexander_control">
+		<param name="robotname" value="alexander" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="alexander" />
+		<param name="robot3name" value="suleyman" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<group ns="alexander">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.28" />
+	</node>
+ 	</group>
+ 	
+ 		
+	<node pkg="create_controller" type="centroid" name="suleyman_control">
+		<param name="robotname" value="suleyman" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="alexander" />
+		<param name="robot3name" value="suleyman" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<group ns="suleyman"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.26" />
+	</node>	
+ 	</group>
+ 	
+ 	
+	<node pkg="create_controller" type="centroid" name="hiawatha_control">
+		<param name="robotname" value="hiawatha" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="alexander" />
+		<param name="robot3name" value="suleyman" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node> 
+ 	
+ 	<group ns="hiawatha">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.24" />
+	</node>	
+ 	</group>
+	
+	 
+ 	
+ 	<node pkg="rqt_reconfigure" type="rqt_reconfigure" name="reconfigure_gui"/>
+ 
+	
+	
+</launch>

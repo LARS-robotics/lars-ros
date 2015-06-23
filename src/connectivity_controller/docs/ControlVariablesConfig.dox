@@ -1,0 +1,8 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~k" : \b [double] Translation gain min: -1.5, default: 0.4, max: 1.5
+- \b "~ktheta" : \b [double] Rotation gain min: -15.0, default: 5.0, max: 15.0
+- \b "~power" : \b [bool] ON/OFF min: False, default: True, max: True
+

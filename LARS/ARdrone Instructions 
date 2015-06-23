@@ -1,0 +1,22 @@
+Open Terminal
+
+Tab 1:
+	sudo bash
+	sixad --start
+Press the PS button and wait for the connection message then press Ctrl-C.
+	rosrun ps3joy ps3joy.py
+
+Tab 2:
+	roslaunch joystick_controller ps3_joy.launch
+
+Tab 3:
+	rosrun joystick_controller fly_from_joy
+
+Tab 4:
+	rosrun ardrone_autonomy ardrone_driver
+
+Tab 5: To land the drone
+	rostopic pub /ardrone/land std_msgs/Empty "{}"
+
+Tab 6: To launch the drone
+	rostopic pub /ardrone/takeoff std_msgs/Empty "{}"

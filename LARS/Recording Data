@@ -1,0 +1,17 @@
+How to record dat using rosbag:
+
+#in a new tab after roscore starts, maybe before roslaunch
+
+rosbag record -O <experiment name>.bag -a
+
+Ex:
+
+rosbag record -O may-4-2015-02.bag -a
+
+To create a time series for a topic in csv from a completed rosbag:
+
+rostopic echo -b <bag file> -p <topic> > <filename>.csv
+
+Ex:
+
+rostopic echo -b may-4-2015-02.bag -p /torque > pwm.csv

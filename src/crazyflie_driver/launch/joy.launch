@@ -1,0 +1,13 @@
+<launch>
+
+
+ <!-- PS3 joy node -->
+ <group ns="sputnik">
+  <node respawn="true" pkg="ps3joy"
+        type="ps3_joy_node" name="PS3_turtle_joy" >
+    <param name="dev" type="string" value="/dev/input/js0" />
+    <param name="deadzone" value="0.12" />
+  </node>
+  </group>
+
+</launch>

@@ -1,0 +1,16 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~vl" : \b [double] Leader Linear Velocity min: 0.0, default: 0.2, max: 0.5
+- \b "~wl" : \b [double] Leader Angular Velocity min: -0.3, default: 0.155, max: 0.3
+- \b "~kv" : \b [double] Velocity Gain min: 0.0, default: 0.2, max: 4.0
+- \b "~kw" : \b [double] Rotation Gain min: 0.0, default: 1.2, max: 2.0
+- \b "~ksigma" : \b [double] Estimator Gain min: 0.0, default: 0.01, max: 5.0
+- \b "~vmax" : \b [double] Maximum Velocity min: 0.0, default: 0.5, max: 0.5
+- \b "~epsilon" : \b [double] Angle Bound min: 0.01, default: 0.25, max: 0.5
+- \b "~rho_min" : \b [double] Minimum Distance min: 0.15, default: 0.3, max: 2.0
+- \b "~rhod" : \b [double] Rho Desired min: 0.3, default: 0.7, max: 2.0
+- \b "~psid" : \b [double] Psi Desired min: -1.4, default: 0.0, max: 1.4
+- \b "~power" : \b [bool] ON/OFF min: False, default: True, max: True
+

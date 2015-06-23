@@ -1,0 +1,58 @@
+<launch>
+
+	<node pkg="vicon" type="vicon" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.2.53:801" />
+	</node>
+	
+	<node pkg="adaptive_following" type="adaptive_following" name="first_controller">
+		<param name="followerrobotname" value="road_runner" />
+		<param name="leaderrobotname" value="hal" />
+		<param name="robot1name" value="road_runner" />
+		<param name="robot2name" value="hal" />
+		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<node pkg="adaptive_following" type="multiple_adaptive_following" name="second_controller">
+		<param name="followerrobotname" value="coyote" />
+		<param name="leaderrobotname" value="road_runner" />
+		<param name="robot1name" value="coyote" />
+		<param name="robot2name" value="road_runner" />
+		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<!-- <node pkg="adaptive_following" type="multiple_adaptive_following" name="third_controller">
+		<param name="followerrobotname" value="gizmo" />
+		<param name="leaderrobotname" value="coyote" />
+		<param name="robot1name" value="gizmo" />
+		<param name="robot2name" value="coyote" />
+		<param name="power" type="boolean" value="false" />
+ 	</node> -->
+ 	
+ 	<group ns="hal">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.26" />
+	</node>
+ 	</group>
+ 	
+ 	<group ns="road_runner"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.24" />
+	</node>	
+ 	</group>
+ 	
+ 	<group ns="coyote">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.28" />
+	</node>
+ 	</group>
+ 	
+ 	<!-- <group ns="gizmo"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.20" />
+	</node>	
+ 	</group> -->
+ 	
+ 	
+	<node pkg="dynamic_reconfigure" type="reconfigure_gui" name="reconfigure_gui"/>
+	
+</launch>

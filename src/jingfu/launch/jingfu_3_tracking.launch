@@ -1,0 +1,48 @@
+<launch>
+
+	<node pkg="vicon" type="vicon_node" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.1.2:801" />
+	</node>
+
+	<group ns="gandhi">
+	<node pkg="jingfu" type="jingfu_control" name="control">
+		<rosparam param="robot_list">["gandhi", "alexander", "suleyman","drone_jj"]</rosparam>
+		<param name="robotname" value="gandhi" />
+ 	</node>
+ 	
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.20" />
+	</node>
+	</group>
+ 	
+ 	 <group ns="alexander"> 	
+	<node pkg="jingfu" type="jingfu_control" name="control">
+		<rosparam param="robot_list">["gandhi", "alexander", "suleyman", "drone_jj"]</rosparam>
+		<param name="robotname" value="alexander" />
+ 	</node>
+ 	
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.28" />
+	</node>	
+ 	</group>
+ 	
+  	<group ns="suleyman">
+	<node pkg="jingfu" type="jingfu_control" name="control">
+		<rosparam param="robot_list">["gandhi", "alexander", "suleyman", "drone_jj"]</rosparam>
+		<param name="robotname" value="suleyman" />
+ 	</node>
+ 	
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.26" />
+	</node>
+	</group>
+
+	 <group ns="drone_jj"> 	
+	<node pkg="jingfu" type="jingfu_control" name="control">
+		<rosparam param="robot_list">["gandhi", "alexander", "suleyman", "drone_jj"]</rosparam>
+		<param name="robotname" value="drone_jj" />
+ 	</node>
+ 	</group>
+	
+	
+</launch>

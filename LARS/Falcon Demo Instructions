@@ -1,0 +1,14 @@
+Open Terminal
+
+Tab 1:
+	sudo -s 
+	rosrun novint_falcon_driver falcon_driver
+
+Tab 2:
+	roscore
+
+Tab 3:
+	rosrun novint_falcon_driver falcon_to_joy
+
+Tab 4:
+	roslaunch joystick_controller min_test.launch

@@ -1,0 +1,29 @@
+<launch>
+
+	<node pkg="vicon" type="vicon" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.2.51:801" />
+	</node>
+	
+	<node pkg="adaptive_following_leader_fbc" type="adaptive_following_leader_fbc" name="controller">
+		<param name="followerrobotname" value="caesar" />
+		<param name="leaderrobotname" value="darius" />
+		<param name="robot1name" value="caesar" />
+		<param name="robot2name" value="darius" />
+		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<group ns="darius">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.32" />
+	</node>
+ 	</group>
+ 	
+ 	<group ns="caesar"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.30" />
+	</node>	
+ 	</group>
+ 	
+	<node pkg="dynamic_reconfigure" type="reconfigure_gui" name="reconfigure_gui"/>
+	
+</launch>

@@ -1,0 +1,19 @@
+Open this file:
+	~/utd-lars/src/joystick_controller/launch/min_test.launch
+
+Make sure vicon_IP matches the IP of the vicon computer.
+Make sure the dev parameter ("/dev/input/js{?}") in the joy node matches the result of 
+	ls /dev/input
+
+Open Terminal
+
+Tab 1:
+	sudo bash
+	sixad --start
+Press the PS button and wait for the connection message then press Ctrl-C.
+	rosrun ps3joy ps3joy.py
+
+Press the playstation button on the controller to connect.
+
+Tab 2:
+	roslaunch joystick_controller ps3.launch

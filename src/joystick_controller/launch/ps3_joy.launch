@@ -1,0 +1,21 @@
+<launch>
+
+	<!-- PS3 joy node -->
+	<!-- -->
+	<node pkg="joy" type="joy_node" name="ps3_joy" output="screen" >
+    		<param name="dev" type="string" value="/dev/input/js0" />
+    		<param name="deadzone" value="0.12" />
+		<param name="coalesce_interval" value="0.000000000000000001" />
+		<param name="autorepeat_rate" value="100" />
+  	</node>
+	
+    
+	<!-- Axes -->
+	  <param name="axis_linear" value="1" type="int"/>
+	  <param name="axis_angular" value="0" type="int"/>
+	  <param name="axis_radius" value="2" type="int"/>
+	  <param name="scale_linear" value="-2000" type="double"/>
+	  <param name="scale_angular" value="2000" type="double"/>
+	  <param name="scale_radius" value="200" type="double"/>
+
+</launch>

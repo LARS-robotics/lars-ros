@@ -1,0 +1,89 @@
+<launch>
+
+	<node pkg="vicon" type="old_to_new_vicon_translator" name="old_to_new_vicon_translator" respawn="true">
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="suleyman" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="robot5name" value="darius" />
+		<param name="robot6name" value="caesar" />
+ 	</node>
+	
+	<node pkg="connectivity_controller" type="connectivity" name="connectivity_controller" respawn="true">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha", "darius", "caesar"]</rosparam>
+		<rosparam param="formation_x_list">[0.5457, 1.9729, 1.237,-0.7, -0.3, -0.9]</rosparam>
+		<rosparam param="formation_y_list">[-1.5740,-1.5810,-1.539,-0.7, -1.54, -1.54]</rosparam>
+		<param name="robotname" value="gandhi" />
+
+ 	</node>
+
+	<group ns="gandhi">
+	<node pkg="connectivity_controller" type="control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha", "darius", "caesar"]</rosparam>
+		<param name="robotname" value="gandhi" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+	</group>
+	
+	<group ns="suleyman">
+	<node pkg="connectivity_controller" type="control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha", "darius", "caesar"]</rosparam>
+		<param name="robotname" value="suleyman" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+
+ 	</group>
+ 	
+ 	<group ns="alexander"> 	
+	<node pkg="connectivity_controller" type="control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha", "darius", "caesar"]</rosparam>
+		<param name="robotname" value="alexander" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+
+ 	</group>
+ 	
+ 	<group ns="hiawatha">
+	<node pkg="connectivity_controller" type="control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha", "darius", "caesar"]</rosparam>
+		<param name="robotname" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node> 
+
+ 	</group>
+
+ 	<group ns="darius"> 
+ 	<node pkg="connectivity_controller" type="control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha", "darius", "caesar"]</rosparam>
+		<param name="robotname" value="darius" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+
+ 	</group>
+ 	
+  	<group ns="caesar">	
+	<node pkg="connectivity_controller" type="control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha", "darius", "caesar"]</rosparam>
+		<param name="robotname" value="caesar" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node> 
+
+ 	</group>
+	
+	 
+	
+	<node pkg="rqt_reconfigure" type="rqt_reconfigure" name="reconfigure_gui"/>
+	
+</launch>

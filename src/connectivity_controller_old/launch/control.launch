@@ -1,0 +1,120 @@
+<launch>
+	<node pkg="connectivity_controller_old" type="control_old" name="gandhi_control">
+		<param name="robotname" value="gandhi" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="suleyman" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="robot5name" value="darius" />
+		<param name="robot6name" value="caesar" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<group ns="gandhi">
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.20" />
+	</node>
+	</group>
+	
+
+	<node pkg="connectivity_controller_old" type="control_old" name="suleyman_control">
+		<param name="robotname" value="suleyman" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="suleyman" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="robot5name" value="darius" />
+		<param name="robot6name" value="caesar" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<group ns="suleyman">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.26" />
+	</node>
+ 	</group>
+ 	
+ 		
+	<node pkg="connectivity_controller_old" type="control_old" name="alexander_control">
+		<param name="robotname" value="alexander" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="suleyman" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="robot5name" value="darius" />
+		<param name="robot6name" value="caesar" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<group ns="alexander"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.28" />
+	</node>	
+ 	</group>
+ 	
+ 	
+	<node pkg="connectivity_controller_old" type="control_old" name="hiawatha_control">
+		<param name="robotname" value="hiawatha" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="suleyman" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="robot5name" value="darius" />
+		<param name="robot6name" value="caesar" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node> 
+ 	
+ 	<group ns="hiawatha">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.24" />
+	</node>	
+ 	</group>
+ 	
+ 	<node pkg="connectivity_controller_old" type="control_old" name="darius_control">
+		<param name="robotname" value="darius" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="suleyman" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="robot5name" value="darius" />
+		<param name="robot6name" value="caesar" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+
+ 	
+ 	<group ns="darius"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.32" />
+	</node>	
+ 	</group>
+ 	
+ 	
+	<node pkg="connectivity_controller_old" type="control_old" name="caesar_control">
+		<param name="robotname" value="caesar" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="suleyman" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="robot5name" value="darius" />
+		<param name="robot6name" value="caesar" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node> 
+ 	
+ 	<group ns="caesar">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.30" />
+	</node>	
+ 	</group>
+ </launch>

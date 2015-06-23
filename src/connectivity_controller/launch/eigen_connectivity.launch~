@@ -1,0 +1,94 @@
+<launch>
+
+	<node pkg="vicon" type="vicon_node" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.1.9:801" />
+	</node>
+	
+	<node pkg="connectivity_controller" type="eigen_connectivity" name="connectivity_controller" respawn="true">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha"]</rosparam>
+		<rosparam param="formation_x_list">[0.5, -0.5, -0.5,  0.5]</rosparam>
+		<rosparam param="formation_y_list">[0.5, 0.5,  -0.5, -0.5]</rosparam>
+		<param name="robotname" value="gandhi" />
+
+ 	</node>
+
+	<group ns="gandhi">
+	<node pkg="connectivity_controller" type="eigen_control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha"]</rosparam>
+		<param name="robotname" value="gandhi" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="0.1" />
+ 		<param name="power" type="boolean" value="false" />
+		<param name="kca" type="double" value="0.0" />
+		<param name="kconn" type="double" value="0.1" />
+		<param name="kfc" type="double" value="0.0" />
+		<param name="formation" type="boolean" value="true" />
+ 	</node>
+ 	
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.20" />
+	</node>
+	</group>
+	
+	<group ns="suleyman">
+	<node pkg="connectivity_controller" type="eigen_control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha"]</rosparam>
+		<param name="robotname" value="suleyman" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="0.1" />
+ 		<param name="power" type="boolean" value="false" />
+		<param name="kca" type="double" value="0.0" />
+		<param name="kconn" type="double" value="0.1" />
+		<param name="kfc" type="double" value="0.0" />
+		<param name="formation" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.26" />
+	</node>
+ 	</group>
+ 	
+ 	<group ns="alexander"> 	
+	<node pkg="connectivity_controller" type="eigen_control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha"]</rosparam>
+		<param name="robotname" value="alexander" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="0.1" />
+ 		<param name="power" type="boolean" value="false" />
+		<param name="kca" type="double" value="0.0" />
+		<param name="kconn" type="double" value="0.1" />
+		<param name="kfc" type="double" value="0.0" />
+		<param name="formation" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.28" />
+	</node>	
+ 	</group>
+ 	
+ 	<group ns="hiawatha">
+	<node pkg="connectivity_controller" type="eigen_control" name="control">
+		<rosparam param="robot_list">["gandhi", "suleyman", "alexander", "hiawatha"]</rosparam>
+		<param name="robotname" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="0.1" />
+ 		<param name="power" type="boolean" value="false" />
+		<param name="kca" type="double" value="0.0" />
+		<param name="kconn" type="double" value="0.1" />
+		<param name="kfc" type="double" value="0.0" />
+		<param name="formation" type="boolean" value="true" />
+ 	</node> 
+ 	
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.24" />
+	</node>	
+ 	</group>
+
+ 
+	
+	 
+ 	
+ 	<node pkg="rqt_reconfigure" type="rqt_reconfigure" name="reconfigure_gui"/>
+	
+	
+</launch>

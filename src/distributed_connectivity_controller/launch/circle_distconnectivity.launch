@@ -1,0 +1,102 @@
+<launch>
+
+	<node pkg="vicon" type="vicon" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.2.52:801" />
+	</node>
+	
+	<group ns="caesar">
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.30" />
+	</node>
+	</group>
+	
+	<group ns="darius">
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.32" />
+	</node>
+	</group>
+	
+	<node pkg="distributed_connectivity_controller" type="connectivity" name="connectivity" respawn="true">
+		<param name="robot1name" value="suleyman" />
+		<param name="robot2name" value="gandhi" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+ 	</node>
+	
+	<node pkg="distributed_connectivity_controller" type="control" name="suleyman_control">
+		<param name="robotname" value="suleyman" />
+		<param name="robot1name" value="suleyman" />
+		<param name="robot2name" value="gandhi" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<group ns="suleyman">
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.26" />
+	</node>
+	</group>
+	
+	
+	<node pkg="distributed_connectivity_controller" type="control" name="gandhi_control">
+		<param name="robotname" value="gandhi" />
+		<param name="robot1name" value="suleyman" />
+		<param name="robot2name" value="gandhi" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<group ns="gandhi">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.20" />
+	</node>
+ 	</group>
+ 	
+ 		
+	<node pkg="distributed_connectivity_controller" type="control" name="alexander_control">
+		<param name="robotname" value="alexander" />
+		<param name="robot1name" value="suleyman" />
+		<param name="robot2name" value="gandhi" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node>
+ 	
+ 	<group ns="alexander"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.28" />
+	</node>	
+ 	</group>
+ 	
+ 	
+	<node pkg="distributed_connectivity_controller" type="control" name="hiawatha_control">
+		<param name="robotname" value="hiawatha" />
+		<param name="robot1name" value="suleyman" />
+		<param name="robot2name" value="gandhi" />
+		<param name="robot3name" value="alexander" />
+		<param name="robot4name" value="hiawatha" />
+		<param name="k" type="double" value="0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="true" />
+ 	</node> 
+ 	
+ 	<group ns="hiawatha">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.24" />
+	</node>	
+ 	</group>
+	
+	 
+ 	
+ 	<node pkg="dynamic_reconfigure" type="reconfigure_gui" name="reconfigure_gui"/>
+	
+	
+</launch>

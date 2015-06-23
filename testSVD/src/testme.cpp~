@@ -1,0 +1,27 @@
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+using std::setw;
+using std::setprecision;
+
+
+int main(int argc, char** argv)
+{
+	cout << "Hello World! "<<endl;
+	cout << "I'm a C++ program "<<endl;
+
+	ofstream myfile("/home/jjin/catkin_ws/src/testme/exp_data.txt",ios::out | ios::binary);
+	int x = 0; int y = 0; int h = 0; 
+	for (int i=0;i<10;i++)
+	{
+		x = x + i;
+		y = y +	x;
+		h = h + y;		
+		myfile <<x<<setw(20)<<y<<setw(20)<<h<<setw(20)<<endl;
+	}
+	myfile.close();
+	return 0;
+}

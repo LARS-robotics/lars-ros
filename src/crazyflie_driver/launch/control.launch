@@ -1,0 +1,35 @@
+<launch>
+
+	<node pkg="vicon" type="vicon" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.2.50:801" />
+	</node>
+	
+	
+	<!--
+	<node pkg="crazyflie_control" type="crazyflie_control_node.py" name="apollo_control">
+		<param name="name" value="apollo" />
+ 	</node>
+ 	-->
+ 	
+ 	<group ns="apollo">
+	<node pkg="crazyflie_driver" type="crazyflie_node.py" name="driver" respawn="true">
+		<param name="radio" value="radio://0/15/2M" />
+	</node>
+	</group>
+	
+	
+	<!--
+	<node pkg="crazyflie_control" type="crazyflie_control_node" name="sputnik_control">
+		<param name="name" value="sputnik" />
+ 	</node>
+	
+	<group ns="sputnik">
+	<node pkg="crazyflie_driver" type="crazyflie_node" name="driver" respawn="true">
+		<param name="radio" value="radio://0/10/2M" />
+	</node>
+	</group>
+ 	-->
+
+	
+	
+</launch>

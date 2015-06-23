@@ -1,0 +1,21 @@
+gst-launch -v v4l2src device=/dev/video0 ! 'video/x-raw-yuv,width=640,height=480,framerate=30/1' ! x264enc pass=qual quantizer=20 tune=zerolatency ! rtph264pay ! udpsink 127.0.0.1 port=5000
+
+gst-launch udpsrc ! application/x-rtp,payload=96 ! rtph264depay ! decodebin ! xvimagesink sync=false
+
+gst-launch v4l2src device=/dev/video0 ! 'video/x-raw-yuv,width=640,height=480,framerate=30/1' ! ffmpegcolorspace ! rtpvrawpay ! udpsink
+
+gst-launch udpsrc caps="application/x-rtp, media=(string)video,clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)RGB,depth=(string)8, width=(string)320, height=(string)240,colorimetry=(string)SMPTE240M" ! rtpvrawdepay ! ffmpegcolorspace ! autovideosink
+
+gst-launch v4l2src device=/dev/video7 ! 'video/x-raw-yuv,width=640,height=480,framerate=30/1' ! ffmpegcolorspace ! rtpvrawpay ! udpsink host=192.168.1.104 port=5000
+
+gst-launch udpsrc port=5000 caps="application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)RAW, sampling=(string)YCbCr-4:2:0, depth=(string)8, width=(string)640, height=(string)480, colorimetry=(string)SMPTE240M, payload=(int)96, ssrc=(uint)1403359872, clock-base=(uint)2108855970, seqnum-base=(uint)48716" ! rtpvrawdepay ! ffmpegcolorspace ! queue ! fpsdisplaysink sync=false
+
+gst-launch v4l2src device=/dev/video7 ! 'video/x-raw-yuv,width=640,height=480,framerate=30/1' ! ffmpegcolorspace ! TIVidenc1 codecName=h264enc engineName=codecServer ! rtph264pay pt=96 ! udpsink host=192.168.2.50 port=5000
+
+gst-launch udpsrc caps = application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, sprop-parameter-sets=(string)\"Z0KAHukBQHpCAAAH0AAB1MAIAA\\=\\=\\,aM48gAA\\=\", payload=(int)96, ssrc=(uint)2961607742, clock-base=(uint)2908157217, seqnum-base=(uint)30018 ! rtph264depay ! ffdec_h264 ! ffmpegcolorspace ! queue ! fpsdisplaysink sync=false
+
+
+setenv vram '24M'
+setenv dvimode 'hd720 mem=99M@0x80000000 mem=384M@0x88000000 omapfb.vram=0:12M,1:8M,2:4M'
+run loaduimage
+run mmcboot

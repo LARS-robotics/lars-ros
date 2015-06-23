@@ -1,0 +1,106 @@
+<launch>
+
+	<node pkg="vicon" type="vicon" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.1.50:801" />
+	</node>
+	
+	<!--<node pkg="adaptive_following" type="adaptive_following" name="first_controller">
+		<param name="followerrobotname" value="caesar" />
+		<param name="leaderrobotname" value="darius" />
+		<param name="robot1name" value="caesar" />
+		<param name="robot2name" value="darius" />
+		<param name="power" type="boolean" value="false" />
+ 	</node> -->
+ 	
+ 	<node pkg="adaptive_following" type="adaptive_following" name="first_controller">
+		<param name="followerrobotname" value="caesar" />
+		<param name="leaderrobotname" value="gandhi" />
+		<param name="robot1name" value="caesar" />
+		<param name="robot2name" value="gandhi" />
+		<param name="power" type="boolean" value="true" />
+		<param name="rhod" type="double" value="0.6958" />
+		<param name="ksigma" type="double" value="0.1" />
+		<param name="psid" type="double" value="0.2942" />
+ 	</node>
+ 	
+ 	<node pkg="adaptive_following" type="multiple_adaptive_following" name="second_controller">
+		<param name="followerrobotname" value="alexander" />
+		<param name="leaderrobotname" value="caesar" />
+		<param name="robot1name" value="alexander" />
+		<param name="robot2name" value="caesar" />
+		<param name="power" type="boolean" value="true" />
+		<param name="rhod" type="double" value="0.6958" />
+		<param name="ksigma" type="double" value="0.1" />
+		<param name="psid" type="double" value="0.2942" />
+ 	</node>
+ 	
+ 	<node pkg="adaptive_following" type="multiple_adaptive_following" name="third_controller">
+		<param name="followerrobotname" value="suleyman" />
+		<param name="leaderrobotname" value="alexander" />
+		<param name="robot1name" value="suleyman" />
+		<param name="robot2name" value="alexander" />
+		<param name="power" type="boolean" value="true" />
+		<param name="rhod" type="double" value="0.6958" />
+		<param name="ksigma" type="double" value="0.1" />
+		<param name="psid" type="double" value="0.2942" />
+ 	</node>
+
+ 	<node pkg="adaptive_following" type="multiple_adaptive_following" name="fourth_controller">
+		<param name="followerrobotname" value="hiawatha" />
+		<param name="leaderrobotname" value="suleyman" />
+		<param name="robot1name" value="hiawatha" />
+		<param name="robot2name" value="suleyman" />
+		<param name="power" type="boolean" value="true" />
+		<param name="rhod" type="double" value="0.6958" />
+		<param name="ksigma" type="double" value="0.1" />
+		<param name="psid" type="double" value="0.2942" />
+ 	</node>
+
+ 	<!-- <node pkg="adaptive_following" type="multiple_adaptive_following" name="fifth_controller">
+		<param name="followerrobotname" value="gandhi" />
+		<param name="leaderrobotname" value="hiawatha" />
+		<param name="robot1name" value="gandhi" />
+		<param name="robot2name" value="hiawatha" />
+		<param name="power" type="boolean" value="false" />
+ 	</node> -->
+ 	
+ 	<group ns="alexander">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.28" />
+	</node>
+ 	</group>
+ 	
+ 	<group ns="hiawatha"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.24" />
+	</node>	
+ 	</group>
+ 	
+ 	<!-- <group ns="darius">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.32" />
+	</node>
+ 	</group> -->
+ 	
+ 	<group ns="gandhi"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.20" />
+	</node>	
+ 	</group> 
+
+ 	<group ns="suleyman">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.26" />
+	</node>
+ 	</group>
+ 	
+ 	<group ns="caesar"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.1.30" />
+	</node>	
+ 	</group> 
+ 	
+ 	
+	<node pkg="rqt_reconfigure" type="rqt_reconfigure" name="reconfigure_gui"/>
+	
+</launch>

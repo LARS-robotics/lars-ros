@@ -1,0 +1,281 @@
+/*
+ * Software License Agreement (BSD License)
+ *
+ * Copyright (c) 2013, The University of Texas at Dallas
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of The University of Texas at Dallas nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
+/*
+ * Filename: vicon_node.cpp
+ *
+ * Description: This file contains the ROS node that publishes robot world transforms
+ * from a Vicon Motion Capture system. These transforms are found by reading the Vicon
+ * subjects' named markers (origin and front for iRobot Creates) (origin, front, back,
+ * left, and right for Bitcraze Crazyflie) and calculating its position and orientation.
+ * These transforms are published as a geometry_msgs/TransformStamped.msg (Header,
+ * Vector3 and Quaternion) to the topic /<Subject Name>/tf
+ *
+ * Log
+ * ----
+ * 2013-09-14 File created by Hazen Eckert
+ *
+ */
+
+// ROS includes
+#include "ros/ros.h"
+#include "geometry_msgs/TransformStamped.h"
+#include "eigen_conversions/eigen_msg.h"
+
+// Library includes
+#include <string>
+#include <map>
+#include <vector>
+#include <iterator>
+#include <Eigen/Core>
+
+// Local Package includes
+#include "vicon/Vicon.h"
+#include "vicon/ViconRobot.h"
+#include "vicon/ViconCrazyflie.h"
+#include "vicon/ViconCreate.h"
+
+using namespace std;
+
+int main (int argc, char **argv)
+{
+	// ROS Initalization
+	ros::init(argc, argv, "vicon");
+	
+	ros::NodeHandle n;
+	ros::NodeHandle private_n("~");
+<<<<<<< HEAD
+
+	private_n.param<std::string>("vicon_IP", viconIP, "192.168.2.51:801");
+=======
+>>>>>>> new-vicon
+	
+	// ROS Parameters
+	string vicon_IP;
+	
+	private_n.param<string>("vicon_IP", vicon_IP, "192.168.1.50:801");
+	
+<<<<<<< HEAD
+	for (int i = 0; i < x; i++) {
+		std::string str = "/";
+		str.append(vicon->getSubjectName(i));
+		str.append("/odom");
+		odom_pub.push_back(n.advertise<nav_msgs::Odometry>(str, 1));
+	}
+	
+	
+	unsigned int sequence = 0;
+=======
+	// Vicon Initalization
+	Vicon *vicon;
+	vicon = new Vicon(vicon_IP);
+	
+	// Vicon Connect
+	ros::Duration vicon_sleep(0, 100000);
+	while (vicon->connect() == false && ros::ok())
+	{
+		vicon_sleep.sleep();
+	}	
+	
+	// ROS Publisher Map
+	map<string, ros::Publisher> robot_pub;
+>>>>>>> new-vicon
+	
+	// ROS Loop
+	while (ros::ok() && vicon->isConnected())
+	{
+<<<<<<< HEAD
+		sequence = vicon->getFrame();
+		ros::Time scan_time = ros::Time::now();
+		
+		for (int i = 0; i < x; i++) {
+			nav_msgs::Odometry msg;
+			msg.header.seq = sequence;
+			msg.header.stamp = scan_time;
+			msg.header.frame_id = 1;
+	
+			Eigen::Vector3d origin = vicon->getMarkerTranslation( vicon->getSubjectName(i), "origin" );
+			Eigen::Vector3d front = vicon->getMarkerTranslation( vicon->getSubjectName(i), "front" );
+			geometry_msgs::Quaternion Q;
+			geometry_msgs::Point P;
+			
+			if ( vicon->hasMarkerWithName(vicon->getSubjectName(i), "backleft"))
+			{
+				// crazyflie
+				ROS_INFO("cf");
+				// get markers
+				Eigen::Vector3d back = vicon->getMarkerTranslation( vicon->getSubjectName(i), "back" );
+				Eigen::Vector3d backleft = vicon->getMarkerTranslation( vicon->getSubjectName(i), "backleft" );
+				Eigen::Vector3d frontright = vicon->getMarkerTranslation( vicon->getSubjectName(i), "frontright" );
+				
+				P.x = origin[0];
+				P.y = origin[1];
+				P.z = origin[2] - 20.0;
+				
+				Eigen::Vector3d v1 = front - back;			// vector pointing from the back marker to the front
+				Eigen::Vector3d v2 = backleft - back;		// vector pointing from the back marker to the backleft
+				Eigen::Vector3d v3 = back - frontright;		// vector pointing from the front marker to the front right 
+				Eigen::Vector3d u1 = v1;					
+				Eigen::Vector3d e1 = u1.normalized();			// unit vector along u1
+				Eigen::Vector3d u2 = v2 - (v2.dot(u1)/u1.dot(u1))*u1;	// the orthogonal component of the vector v2 to the vector u1
+				Eigen::Vector3d e2 = u2.normalized();			// unit vector along u2
+				Eigen::Vector3d u3 = v3 - (v3.dot(u1)/u1.dot(u1))*u1 - (v3.dot(u2)/u2.dot(u2))*u2; // the orthogonal component of the vector v3 to the vectors u1 and u2
+				Eigen::Vector3d e3 = u3.normalized();
+				
+			    double zeta = M_PI/4.0;
+				Eigen::Matrix3d R0;
+				if (vicon->getSubjectName(i).compare("apollo") == 0)
+				{
+					R0 << 	0.731890,	-0.423853,	-0.533560, 
+							0.681012, 	0.427771, 	0.594335,
+							-0.023669, 	-0.798348, 	0.601730;
+				} else if (vicon->getSubjectName(i).compare("sputnik") == 0) {
+					R0 << 	0.61107991, 0.275000, 0.744796, 
+							0.623794, 0.414865, -0.662395,
+							0.491149, -0.867330, -0.080691;
+				}
+				Eigen::Matrix3d R1;
+				R1 << e1, e2, e3; 
+				Eigen::Matrix3d R  = R1*R0.transpose();
+				//ROS_INFO("R:\n");
+				//ROS_INFO("%f, %f, %f\n",  R(0,0), R(0,1), R(0,2) );
+				//ROS_INFO("%f, %f, %f\n",  R(1,0), R(1,1), R(1,2) );
+				//ROS_INFO("%f, %f, %f\n",  R(2,0), R(2,1), R(2,2) );
+				
+				//ROS_INFO("e1: %f, %f, %f\n",  e1(0), e1(1), e1(2) );
+				//ROS_INFO("e2: %f, %f, %f\n",  e2(0), e2(1), e2(2) );
+				//ROS_INFO("e3: %f, %f, %f\n",  e3(0), e3(1), e3(2) );
+		
+				Eigen::Quaterniond q(R);
+				
+				Q.x = q.x();
+				Q.y = q.y();
+				Q.z = q.z();
+				Q.w = q.w();
+				
+			} else {
+				// irobot create
+				ROS_INFO("irc");
+				if (vicon->getSubjectName(i).compare("caesar") == 0)
+				{
+					origin = (origin + front)/2.0;
+				}
+				Eigen::Vector3d vector = front - origin;;
+=======
+		// Pull New Vicon Data
+		while (vicon->update() == false && ros::ok())
+		{
+			vicon_sleep.sleep();
+		}
+		
+		// Message Header
+		std_msgs::Header header;
+		header.seq = vicon->getFrameNumber();
+		header.stamp = ros::Time::now();
+		header.frame_id = 1;
+		
+		// Map of robots and their markers
+		map<string, map<string, Eigen::Vector3d> > robot_data = vicon->getRobotData();
+		
+		// Loop over all robots
+		vector<string> robot_names = vicon->getRobotNames();
+		vector<string>::iterator it;
+		
+		for (it = robot_names.begin(); it != robot_names.end(); it++)
+		{
+			// Message Data
+			geometry_msgs::TransformStamped msg;
+			msg.header = header;
+>>>>>>> new-vicon
+			
+			// Calculate robot transforms
+			ViconRobot *robot;
+			
+<<<<<<< HEAD
+				tf::Quaternion btQ;// = tf::Quaternion(YPR[0], YPR[1], YPR[2]);
+				btQ.setEulerZYX(YPR[0], YPR[1], YPR[2]);
+				P.x = origin[0];
+				P.y = origin[1];
+				P.z = origin[2] - 20.0;
+				
+				Q.x = (double) btQ.x();
+				Q.y = (double) btQ.y();
+				Q.z = (double) btQ.z();
+				Q.w = (double) btQ.w();
+=======
+			// If the robot has a "left" marker it is a Crazyflie
+			if (robot_data[*it].find("left") != robot_data[*it].end())
+			{
+				robot = new ViconCrazyflie(robot_data[*it]);
+			} else { // If the robot is a Create
+				robot = new ViconCreate(robot_data[*it]);
+			}
+			
+			// Get Rotation and translation
+			geometry_msgs::Vector3 t;
+			tf::vectorEigenToMsg(robot->getTranslation(), t);
+			msg.transform.translation = t;
+			tf::quaternionEigenToMsg(robot->getOrientation(), msg.transform.rotation);
+
+			// If we do not yet have a publisher for this robot, create one
+			if (robot_pub.find(*it) == robot_pub.end())
+			{
+				string topic_name = "/";
+				topic_name.append(*it);
+				topic_name.append("/tf");
+				robot_pub.insert(pair<string, ros::Publisher>(*it, n.advertise<geometry_msgs::TransformStamped>(topic_name, 1)));
+>>>>>>> new-vicon
+			}
+			
+			// Publish transform
+			robot_pub[*it].publish(msg);
+		}
+<<<<<<< HEAD
+	
+		ros::spinOnce();
+
+=======
+		
+		ros::spinOnce();
+>>>>>>> new-vicon
+	}
+	
+	// If vicon is already disconnected there has been an error
+	if (vicon->isConnected())
+	{
+		vicon->disconnect();
+	} else {
+		ROS_ERROR("Vicon has become disconnected");
+	}
+	
+	delete vicon;
+	
+	return 0;
+}

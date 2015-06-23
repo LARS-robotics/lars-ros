@@ -1,0 +1,7 @@
+<launch>
+	
+	<node pkg="vicon" type="vicon_node" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.1.50:801" />
+	</node>
+	
+</launch>

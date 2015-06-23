@@ -1,0 +1,9 @@
+\subsubsection usage Usage
+\verbatim
+<node name="connectivity_controller" pkg="connectivity_controller" type="connectivity_controller">
+  <param name="k" type="double" value="0.4" />
+  <param name="ktheta" type="double" value="5.0" />
+  <param name="power" type="bool" value="True" />
+</node>
+\endverbatim
+

@@ -1,0 +1,101 @@
+<launch>
+
+	<!-- PS3 joy node -->
+	<!--
+  		<node respawn="true" pkg="ps3joy" type="ps3_joy_node" name="PS3_turtle_joy" >
+    		<param name="dev" type="string" value="/dev/input/js0" />
+    		<param name="deadzone" value="0.12" />
+    </node>
+    -->
+    
+    <!-- Axes -->
+	  <param name="axis_linear" value="1" type="int"/>
+	  <param name="axis_angular" value="0" type="int"/>
+	  <param name="axis_radius" value="2" type="int"/>
+	  <param name="scale_linear" value="-2000" type="double"/>
+	  <param name="scale_angular" value="2000" type="double"/>
+	  <param name="scale_radius" value="200" type="double"/>
+	  
+	<node pkg="joystick_controller" type="joystick_centroid" name="teleop"/>
+	
+	<node pkg="vicon" type="vicon" name="vicon" respawn="true">
+		<param name="vicon_IP" value="192.168.2.60:801" />
+	</node>
+	
+	<node pkg="create_controller" type="centroid" name="gizmo_control">
+		<param name="robotname" value="gizmo" />
+		<param name="robot1name" value="gizmo" />
+		<param name="robot2name" value="hal" />
+		<param name="robot3name" value="coyote" />
+		<param name="robot4name" value="road_runner" />
+		<param name="k" type="double" value="-0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<group ns="gizmo">
+	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.20" />
+	</node>
+	</group>
+	
+	
+	<node pkg="create_controller" type="centroid" name="hal_control">
+		<param name="robotname" value="hal" />
+		<param name="robot1name" value="gizmo" />
+		<param name="robot2name" value="hal" />
+		<param name="robot3name" value="coyote" />
+		<param name="robot4name" value="road_runner" />
+		<param name="k" type="double" value="-0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<group ns="hal">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.26" />
+	</node>
+ 	</group>
+ 	
+ 		
+	<node pkg="create_controller" type="centroid" name="coyote_control">
+		<param name="robotname" value="coyote" />
+		<param name="robot1name" value="gizmo" />
+		<param name="robot2name" value="hal" />
+		<param name="robot3name" value="coyote" />
+		<param name="robot4name" value="road_runner" />
+		<param name="k" type="double" value="-0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node>
+ 	
+ 	<group ns="coyote"> 
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.28" />
+	</node>	
+ 	</group>
+ 	
+ 	
+	<node pkg="create_controller" type="centroid" name="road_runner_control">
+		<param name="robotname" value="road_runner" />
+		<param name="robot1name" value="gizmo" />
+		<param name="robot2name" value="hal" />
+		<param name="robot3name" value="coyote" />
+		<param name="robot4name" value="road_runner" />
+		<param name="k" type="double" value="-0.2" />
+ 		<param name="ktheta" type="double" value="1.0" />
+ 		<param name="power" type="boolean" value="false" />
+ 	</node> 
+ 	
+ 	<group ns="road_runner">
+ 	<node pkg="create_driver" type="create_driver" name="driver" respawn="true">
+		<param name="hostname" value="192.168.2.24" />
+	</node>	
+ 	</group>
+	
+	 
+ 	
+ 	<node pkg="dynamic_reconfigure" type="reconfigure_gui" name="reconfigure_gui"/>
+	
+	
+</launch>

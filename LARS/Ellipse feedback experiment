@@ -1,0 +1,13 @@
+Ellipse feedback experiment
+
+Open Terminal
+
+Tab 1:
+	sudo -s 
+	rosrun novint_falcon_driver falcon_driver
+
+Tab 2:
+	roscore
+
+Tab 3:
+	roslaunch novint_falcon_driver ellipse_test.launch
