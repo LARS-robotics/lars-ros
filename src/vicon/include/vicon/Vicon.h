@@ -82,7 +82,7 @@ public:
 	 *
 	 */
 	Vicon(std::string vicon_IP);
-	
+
 	/*
 	 * Method: connect()
 	 *
@@ -92,7 +92,7 @@ public:
 	 *
 	 */
 	bool connect();
-	
+
 	/*
 	 * Method: isConnected()
 	 *
@@ -102,7 +102,7 @@ public:
 	 *
 	 */
 	bool isConnected();
-	
+
 	/*
 	 * Method: update()
 	 *
@@ -112,7 +112,7 @@ public:
 	 *
 	 */
 	bool update();
-	
+
 	/*
 	 * Method: getFrameNumber()
 	 *
@@ -122,7 +122,7 @@ public:
 	 *
 	 */
 	unsigned int getFrameNumber();
-	
+
 	/*
 	 * Method: getRobotData()
 	 *
@@ -133,7 +133,7 @@ public:
 	 *
 	 */
 	std::map<std::string, std::map<std::string, Eigen::Vector3d> > getRobotData();
-	
+
 	/*
 	 * Method: getRobotNames()
 	 *
@@ -143,7 +143,7 @@ public:
 	 *
 	 */
 	std::vector<std::string> getRobotNames();
-	
+
 	/*
 	 * Method: disconnect()
 	 *

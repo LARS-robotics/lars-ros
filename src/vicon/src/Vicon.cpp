@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2013, The University of Texas at Dallas
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -14,7 +14,7 @@
  *     * Neither the name of The University of Texas at Dallas nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -30,15 +30,16 @@
 
 /*
  * Filename: Vicon.cpp
- * 
+ *
  * Description: ROS Wrapper for the Vicon Motion Capture System
- * 
+ *
  * Log
  * ----
  * 2013-09-14 File created by Hazen Eckert
  *
  */
- 
+
+// Local Package includes
 // Interface Header
 #include "vicon/Vicon.h"
 
@@ -71,7 +72,7 @@ bool Vicon::connect()
     Output_Connect Output = vicon_client_.Connect(server_name_);
     if (Output.Result == Result::Success || Output.Result == Result::ClientAlreadyConnected)
     {
-    	// Enable Data
+        // Enable Data
 		vicon_client_.EnableSegmentData();
 		vicon_client_.EnableMarkerData();
 		vicon_client_.EnableUnlabeledMarkerData();
@@ -81,10 +82,10 @@ bool Vicon::connect()
 		vicon_client_.SetStreamMode(ViconDataStreamSDK::CPP::StreamMode::ServerPush);
 
 		// Set the global up axis
-		vicon_client_.SetAxisMapping(Direction::Forward, 
-										Direction::Left, 
-					 					Direction::Up); // Z-up
-		
+		vicon_client_.SetAxisMapping(Direction::Forward,
+										Direction::Left,
+                                        Direction::Up); // Z-up
+
         return true;
     }
     return false;
@@ -102,51 +103,51 @@ bool Vicon::isConnected()
 
 bool Vicon::update()
 {
-	 if (vicon_client_.GetFrame().Result == Result::Success)
-	 {
-	 	// Get frame number
-	 	frame_number_ = vicon_client_.GetFrameNumber().FrameNumber;
-	 	
-	 	// Temp name vector and robot data map
-	 	vector<string> temp_robot_names;
-	 	
-	 	map<string, map<string, Eigen::Vector3d> > temp_robot_data;
-	 	
-	 	// Fill out temp_robot_names_ and temp_robot_data_
-	 	unsigned int num_robots = vicon_client_.GetSubjectCount().SubjectCount;
-	 	for (int i = 0; i < num_robots; i++)
-	 	{
-	 		// Add robot name to temp name vector
-	 		temp_robot_names.push_back(vicon_client_.GetSubjectName(i).SubjectName);
-	 		
-	 		// Get the markers for this robot
-	 		unsigned int num_markers = vicon_client_.GetMarkerCount(temp_robot_names.back()).MarkerCount;
-	 		map<string, Eigen::Vector3d> temp_robot_markers;
-	 		for (int j = 0; j < num_markers; j++)
-	 		{
-	 			// Get marker name
-	 			string marker_name = vicon_client_.GetMarkerName(temp_robot_names.back(), j).MarkerName;
-	 			
-	 			// Get marker translation and convert to meters Eigen Vector 
-	 			double *translation = vicon_client_.GetMarkerGlobalTranslation(temp_robot_names.back(), marker_name).Translation;	
-	 			Eigen::Vector3d position(translation[0]/1000.0, translation[1]/1000.0, translation[2]/1000.0);
-	 			
-	 			// Add Eigen::Vector3d to map
-	 			temp_robot_markers.insert(pair<string, Eigen::Vector3d>(marker_name, position));
-	 		}
-	 		
-	 		// Add marker map to robot map
-	 		temp_robot_data.insert(pair<string, map<string, Eigen::Vector3d> >(temp_robot_names.back(), temp_robot_markers));
-	 	}
-	 	
-	 	// Copy map and vector
-	 	robot_names_ = temp_robot_names;
-	 	robot_data_ = temp_robot_data;
-	 	
-	 	return true;
-	 }
-	 
-	 return false;
+    if (vicon_client_.GetFrame().Result == Result::Success)
+    {
+    // Get frame number
+    frame_number_ = vicon_client_.GetFrameNumber().FrameNumber;
+
+    // Temp name vector and robot data map
+    vector<string> temp_robot_names;
+
+    map<string, map<string, Eigen::Vector3d> > temp_robot_data;
+
+    // Fill out temp_robot_names_ and temp_robot_data_
+    unsigned int num_robots = vicon_client_.GetSubjectCount().SubjectCount;
+    for (int i = 0; i < num_robots; i++)
+    {
+        // Add robot name to temp name vector
+        temp_robot_names.push_back(vicon_client_.GetSubjectName(i).SubjectName);
+
+        // Get the markers for this robot
+        unsigned int num_markers = vicon_client_.GetMarkerCount(temp_robot_names.back()).MarkerCount;
+        map<string, Eigen::Vector3d> temp_robot_markers;
+        for (int j = 0; j < num_markers; j++)
+        {
+            // Get marker name
+            string marker_name = vicon_client_.GetMarkerName(temp_robot_names.back(), j).MarkerName;
+
+            // Get marker translation and convert to meters Eigen Vector
+            double *translation = vicon_client_.GetMarkerGlobalTranslation(temp_robot_names.back(), marker_name).Translation;
+            Eigen::Vector3d position(translation[0]/1000.0, translation[1]/1000.0, translation[2]/1000.0);
+
+            // Add Eigen::Vector3d to map
+            temp_robot_markers.insert(pair<string, Eigen::Vector3d>(marker_name, position));
+        }
+
+        // Add marker map to robot map
+        temp_robot_data.insert(pair<string, map<string, Eigen::Vector3d> >(temp_robot_names.back(), temp_robot_markers));
+    }
+
+    // Copy map and vector
+    robot_names_ = temp_robot_names;
+    robot_data_ = temp_robot_data;
+
+    return true;
+    }
+
+return false;
 }
 
 unsigned int Vicon::getFrameNumber()

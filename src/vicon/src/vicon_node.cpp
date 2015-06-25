@@ -58,12 +58,10 @@
 #include <iterator>
 #include <Eigen/Core>
 
-// Local Package includes
 #include "vicon/Vicon.h"
 #include "vicon/ViconRobot.h"
 #include "vicon/ViconDrone.h"
 #include "vicon/ViconCreate.h"
-
 
 int main (int argc, char **argv)
 {
@@ -74,7 +72,7 @@ int main (int argc, char **argv)
 
 	// ROS Parameters
 	std::string vicon_IP;
-	
+
 	private_n.param<std::string>("vicon_IP", vicon_IP, "192.168.1.50:801");
 
 	// Vicon Initalization
@@ -86,8 +84,8 @@ int main (int argc, char **argv)
 	while (vicon->connect() == false && ros::ok())
 	{
 		vicon_sleep.sleep();
-	}	
-	
+	}
+
 	// ROS Publisher Map
 	std::map<std::string, ros::Publisher> robot_pub;
 
@@ -105,7 +103,7 @@ int main (int argc, char **argv)
 		header.seq = vicon->getFrameNumber();
 		header.stamp = ros::Time::now();
 		header.frame_id = 1;
-		
+
 		// Map of robots and their markers
 		std::map<std::string, std::map<std::string, Eigen::Vector3d> > robot_data = vicon->getRobotData();
 
@@ -118,10 +116,10 @@ int main (int argc, char **argv)
 			// Message Data
 			geometry_msgs::TransformStamped msg;
 			msg.header = header;
-			
+
 			// Calculate robot transforms
 			ViconRobot *robot;
-			
+
 			// If the robot has a "drone_front" marker it is a Drone
 			if (robot_data[*it].find("drone_front") != robot_data[*it].end())
 			{
@@ -144,7 +142,7 @@ int main (int argc, char **argv)
 				topic_name.append("/tf");
 				robot_pub.insert(std::pair<std::string, ros::Publisher>(*it, n.advertise<geometry_msgs::TransformStamped>(topic_name, 1)));
 			}
-			
+
 			// Publish transform
 			robot_pub[*it].publish(msg);
 			delete robot;
@@ -152,7 +150,7 @@ int main (int argc, char **argv)
 
 		ros::spinOnce();
 	}
-	
+
 	// If vicon is already disconnected there has been an error
 	if (vicon->isConnected())
 	{
@@ -160,6 +158,6 @@ int main (int argc, char **argv)
 	} else {
 		ROS_ERROR("Vicon has become disconnected");
 	}
-	
+
 	return 0;
 }

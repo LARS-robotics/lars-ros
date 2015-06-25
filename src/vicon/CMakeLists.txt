@@ -72,7 +72,7 @@ include_directories(
 # add_library(vicon
 #   src/${PROJECT_NAME}/vicon.cpp
 # )
- 
+
 ## Declare a cpp executable
 add_executable(old_to_new_vicon_translator src/old_to_new_vicon_translator.cpp)
 target_link_libraries(old_to_new_vicon_translator
