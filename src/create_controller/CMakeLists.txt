@@ -45,7 +45,7 @@ generate_messages()
 ## DEPENDS: system dependencies of this project that dependent projects also need
 
 catkin_package(
-  INCLUDE_DIRS include
+# INCLUDE_DIRS include
   CATKIN_DEPENDS dynamic_reconfigure geometry_msgs roscpp tf eigen_conversions tf_conversions
   DEPENDS eigen system_lib
 )

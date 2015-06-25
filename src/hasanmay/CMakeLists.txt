@@ -5,7 +5,7 @@ find_package(Eigen REQUIRED)
 
 
 catkin_package(
- INCLUDE_DIRS include
+#INCLUDE_DIRS include
  CATKIN_DEPENDS dynamic_reconfigure geometry_msgs nav_msgs roscpp tf
  DEPENDS eigen
 )

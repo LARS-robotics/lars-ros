@@ -82,7 +82,7 @@ generate_dynamic_reconfigure_options(cfg/adaptivecontrol.cfg)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
+# INCLUDE_DIRS include
 #  LIBRARIES vision_based_adaptive_following
   CATKIN_DEPENDS roscpp rospy std_msgs dynamic_reconfigure
   DEPENDS system_lib
