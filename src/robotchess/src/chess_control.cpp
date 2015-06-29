@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 // Local Package includes
 #include "robotchess/PWM.h"
 #include "robotchess/Encoder.h"
@@ -16,19 +15,16 @@
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "control");
-	
+
 	ros::NodeHandle n;
 	ros::NodeHandle private_n("~");
-
-
-
-	ros::Publisher torque_pub = n.advertise<robotchess::PWM>("torque", 10);
+	ros::Publisher torque_pub = n.advertise<robotchess::PWM>("torque", 1000);
 
 	// ROS loop
-	ros::Rate loop_rate(75); // 75 Hz
+	ros::Rate loop_rate(2); // 75 Hz
 
 	ros::Time begin = ros::Time::now();
-	ros::Duration d(1.5);
+	ros::Duration d(4);
 
 	robotchess::PWM emsg;
 	emsg.leftPWM = 0;
@@ -60,9 +56,8 @@ int main(int argc, char **argv)
 			emsg.rightPWM = speed;
 			torque_pub.publish(emsg);
 
-		}  
+		}
 
-		
 		loop_rate.sleep();
 	}
 	return 0;
